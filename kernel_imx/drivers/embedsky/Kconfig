@@ -1,0 +1,175 @@
+#
+# Misc strange devices
+#
+
+menu "EmbedSky devices"
+config EMBEDSKY
+	default y
+        bool "embedsky additional drivers"
+if EMBEDSKY
+choice
+	prompt "Board type"
+	default TQIMX6Q_4
+	help
+	  no help
+
+config TQ335X
+	bool "TQ335X"
+	help
+	  no help
+
+config TQ335X_RT
+	bool "TQ335X RT linux4.14"
+	help
+	  no help
+	  
+config TQIMX6Q_4
+	bool "TQIMX6Q_4"
+	help
+	  no help
+
+
+config TQIMX6Q_3
+	bool "TQIMX6Q_3"
+	help
+	  no help
+
+config TQIMX6UL
+	bool "TQIMX6UL"
+	help
+	  no help
+
+endchoice
+
+choice
+	prompt "System type"
+	help
+	  no help
+
+config ANDROID_DEF
+	bool "android"
+	help
+	  no help
+
+config LINUX_DEF
+	bool "linux"
+	help
+	  no help
+
+endchoice
+
+config FT5X06
+	tristate "i2c to touch(FT5X06)"
+	default y
+	---help---
+	  ft5x06@38 {
+		compatible = "edt,edt-ft5306";
+		reg = <0x38>;
+		interrupt-parent = <&gpio1>;
+		interrupts = <9 2>;
+		int-gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
+		reset-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;};
+
+config GOODIX
+	tristate "i2c to touch(GOODIX)"
+	default y
+	---help---
+	  gt9xx@5d {
+		compatible = "goodix,gt911";
+		reg = <0x5d>;
+		interrupt-parent = <&gpio1>;
+		interrupts = <9 2>;
+		gpios = <&gpio1 9 GPIO_ACTIVE_LOW>;
+		wakeup-gpios = <&gpio1 5 GPIO_ACTIVE_HIGH>;};
+
+config TSC2007
+	tristate "i2c to adc(TSC2007)"
+	default y
+	---help---
+	  tsc2007@48 {
+		compatible = "ti,tsc2007";
+		reg = <0x48>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_i2c1_tsc2007_int>;
+		interrupt-parent = <&gpio1>;
+		interrupts = <29 8>;
+		gpios = <&gpio1 29 GPIO_ACTIVE_LOW>;
+		ti,x-plate-ohms = <660>;};
+
+config WK2124
+	tristate "spi to uart(WK2124)"
+	default n
+	---help---
+	  uart@0 {
+		compatible = "wk2xxx_uart";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+		interrupt-parent = <&gpio7>;
+		interrupts = <3 IRQ_TYPE_EDGE_RISING>;};
+
+config RTL8723BT_ANDROID
+	tristate "RTL8723BT"
+	default n
+	depends on ANDROID_DEF
+	---help---
+	  no help
+
+config RTL8723BT_LINUX
+	tristate "RTL8723BT"
+	default n
+	depends on LINUX_DEF
+	---help---
+	  no help
+
+config OV5640
+	tristate "OV5640"
+	default n
+	---help---
+	  no help
+
+config SGTL5000
+	tristate "SGTL5000"
+	default n
+	---help---
+	  no help
+
+config WM8960
+	tristate "WM8960"
+	default n
+	---help---
+	  no help
+
+config PROCFS
+	tristate "PROCFS"
+	default y
+	---help---
+	  no help
+
+config CAT9555
+	tristate "i2c to gpio(CAT9555)"
+	default n
+	---help---
+	  cat9555@20 {
+		compatible = "tq,cat9555";
+		i2c-id = <1>;
+		gpio-irq = <&gpio1 31 GPIO_ACTIVE_HIGH>;
+		reg = <0x20>;};
+config SII9022_AUDIO
+	tristate "sii9022 audio(i2c i2s)"
+	default n
+	---help---
+		view file drivers/embedsky/lcd_to_hdmi/imx-sii902x.dtsi
+	
+config SII9022_HDMI
+	tristate "sii9022 lcd to hdmi(i2c rgb)"
+	default n
+    ---help---
+		view file drivers/embedsky/lcd_to_hdmi/mxsfb_sii902x.dtsi
+
+config EMBEDSKY_KEYPAD
+	tristate "gpio keypad"
+	default n
+    ---help---
+		view file drivers/embedsky/keypad/matrix_keypad.dtsi
+endif
+endmenu

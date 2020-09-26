@@ -326,6 +326,7 @@ $(INSTALL_TARGETS):
 PHONY += dtbs dtbs_install
 
 dtbs: prepare scripts
+	@echo "rock_dbg:arch_arm_Makefile==>dtbs..."
 	$(Q)$(MAKE) $(build)=$(boot)/dts
 
 dtbs_install:

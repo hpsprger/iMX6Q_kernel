@@ -446,9 +446,10 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
 # Basic helpers built in scripts/
 PHONY += scripts_basic
 scripts_basic:
-	@echo "rock_dbg:Top_Makefile==>scripts_basic..."
+	@echo "rock_dbg:Top_Makefile==>scripts_basic...start"
 	$(Q)$(MAKE) $(build)=scripts/basic
 	$(Q)rm -f .tmp_quiet_recordmcount
+	@echo "rock_dbg:Top_Makefile==>scripts_basic...end"
 
 # To avoid any implicit rule to kick in, define an empty command.
 scripts/basic/%: scripts_basic ;
@@ -459,20 +460,22 @@ PHONY += outputmakefile
 # output directory.
 outputmakefile:
 ifneq ($(KBUILD_SRC),)
-	@echo "rock_dbg:Top_Makefile==>outputmakefile..."
+	@echo "rock_dbg:Top_Makefile==>outputmakefile...start"
 	$(Q)ln -fsn $(srctree) source
 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkmakefile \
 	    $(srctree) $(objtree) $(VERSION) $(PATCHLEVEL)
+	@echo "rock_dbg:Top_Makefile==>outputmakefile...end"
 endif
 
 # Support for using generic headers in asm-generic
 PHONY += asm-generic
 asm-generic:
-	@echo "rock_dbg:Top_Makefile==>asm-generic..."
+	@echo "rock_dbg:Top_Makefile==>asm-generic...start"
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.asm-generic \
 	            src=asm obj=arch/$(SRCARCH)/include/generated/asm
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.asm-generic \
 	            src=uapi/asm obj=arch/$(SRCARCH)/include/generated/uapi/asm
+	@echo "rock_dbg:Top_Makefile==>asm-generic...end"
 
 # To make sure we do not include .config for any of the *config targets
 # catch them early, and hand them over to scripts/kconfig/Makefile

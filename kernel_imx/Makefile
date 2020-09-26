@@ -446,6 +446,7 @@ export RCS_TAR_IGNORE := --exclude SCCS --exclude BitKeeper --exclude .svn \
 # Basic helpers built in scripts/
 PHONY += scripts_basic
 scripts_basic:
+	@echo "rock_dbg:Top_Makefile==>scripts_basic..."
 	$(Q)$(MAKE) $(build)=scripts/basic
 	$(Q)rm -f .tmp_quiet_recordmcount
 
@@ -458,6 +459,7 @@ PHONY += outputmakefile
 # output directory.
 outputmakefile:
 ifneq ($(KBUILD_SRC),)
+	@echo "rock_dbg:Top_Makefile==>outputmakefile..."
 	$(Q)ln -fsn $(srctree) source
 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkmakefile \
 	    $(srctree) $(objtree) $(VERSION) $(PATCHLEVEL)
@@ -466,6 +468,7 @@ endif
 # Support for using generic headers in asm-generic
 PHONY += asm-generic
 asm-generic:
+	@echo "rock_dbg:Top_Makefile==>asm-generic..."
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.asm-generic \
 	            src=asm obj=arch/$(SRCARCH)/include/generated/asm
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.asm-generic \
@@ -969,6 +972,7 @@ PHONY += prepare archprepare prepare0 prepare1 prepare2 prepare3
 # 1) Check that make has not been executed in the kernel src $(srctree)
 prepare3: include/config/kernel.release
 ifneq ($(KBUILD_SRC),)
+	@echo "rock_dbg:Top_Makefile==>prepare3..."
 	@$(kecho) '  Using $(srctree) as source for kernel'
 	$(Q)if [ -f $(srctree)/.config -o -d $(srctree)/include/config ]; then \
 		echo >&2 "  $(srctree) is not clean, please run 'make mrproper'"; \
@@ -982,11 +986,13 @@ prepare2: prepare3 outputmakefile asm-generic
 
 prepare1: prepare2 $(version_h) include/generated/utsrelease.h \
                    include/config/auto.conf
+	@echo "rock_dbg:Top_Makefile==>prepare1..."
 	$(cmd_crmodverdir)
 
 archprepare: archheaders archscripts prepare1 scripts_basic
 
 prepare0: archprepare FORCE
+	@echo "rock_dbg:Top_Makefile==>prepare0..."
 	$(Q)$(MAKE) $(build)=.
 
 # All the preparing..

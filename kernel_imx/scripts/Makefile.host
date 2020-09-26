@@ -49,7 +49,6 @@ host-objdirs := $(dir $(__hostprogs) $(host-cobjs) $(host-cxxobjs))
 
 host-objdirs := $(strip $(sort $(filter-out ./,$(host-objdirs))))
 
-
 __hostprogs     := $(addprefix $(obj)/,$(__hostprogs))
 host-csingle	:= $(addprefix $(obj)/,$(host-csingle))
 host-cmulti	:= $(addprefix $(obj)/,$(host-cmulti))
@@ -60,7 +59,16 @@ host-objdirs    := $(addprefix $(obj)/,$(host-objdirs))
 
 obj-dirs += $(host-objdirs)
 
-#####
+
+$(warning host-csingle = $(host-csingle))
+$(warning host-cmulti  = $(host-cmulti))  
+$(warning host-cobjs   = $(host-cobjs))   
+$(warning host-cxxmulti= $(host-cxxmulti))
+$(warning host-cxxobjs = $(host-cxxobjs))
+$(warning host-objdirs = $(host-objdirs))
+$(warning obj-dirs     = $(obj-dirs))
+
+obj-dirs += $#####
 # Handle options to gcc. Support building with separate output directory
 
 _hostc_flags   = $(HOSTCFLAGS)   $(HOST_EXTRACFLAGS)   \

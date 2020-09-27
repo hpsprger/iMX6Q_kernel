@@ -321,16 +321,20 @@ $(INSTALL_TARGETS):
 	$(Q)$(MAKE) $(build)=$(boot) MACHINE=$(MACHINE) $@
 
 %.dtb: | scripts
+	@echo "rock_dbg:arch_arm_Makefile==>%.dtb ---->$@"
 	$(Q)$(MAKE) $(build)=$(boot)/dts MACHINE=$(MACHINE) $(boot)/dts/$@
 
 PHONY += dtbs dtbs_install
 
 dtbs: prepare scripts
-	@echo "rock_dbg:arch_arm_Makefile==>dtbs..."
+	@echo "rock_dbg:arch_arm_Makefile==>dtbs...rulecmd_start"
 	$(Q)$(MAKE) $(build)=$(boot)/dts
+	@echo "rock_dbg:arch_arm_Makefile==>dtbs...rulecmd_end"
 
 dtbs_install:
+	@echo "rock_dbg:arch_arm_Makefile==>dtbs_install ---->start"
 	$(Q)$(MAKE) $(dtbinst)=$(boot)/dts
+	@echo "rock_dbg:arch_arm_Makefile==>dtbs_install ---->end"
 
 PHONY += vdso_install
 vdso_install:

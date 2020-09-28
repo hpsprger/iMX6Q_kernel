@@ -926,17 +926,22 @@ quiet_cmd_link-vmlinux = LINK    $@
 vmlinux: scripts/link-vmlinux.sh $(vmlinux-deps) FORCE
 	@echo "rock_dbg:top_Makefile==>vmlinux---->$^...."
 ifdef CONFIG_HEADERS_CHECK
+	@echo "rock_dbg:top_Makefile==>vmlinux----111...."
 	$(Q)$(MAKE) -f $(srctree)/Makefile headers_check
 endif
 ifdef CONFIG_SAMPLES
+	@echo "rock_dbg:top_Makefile==>vmlinux----222...."
 	$(Q)$(MAKE) $(build)=samples
 endif
 ifdef CONFIG_BUILD_DOCSRC
+	@echo "rock_dbg:top_Makefile==>vmlinux----333...."
 	$(Q)$(MAKE) $(build)=Documentation
 endif
 ifdef CONFIG_GDB_SCRIPTS
+	@echo "rock_dbg:top_Makefile==>vmlinux----444...."
 	$(Q)ln -fsn `cd $(srctree) && /bin/pwd`/scripts/gdb/vmlinux-gdb.py
 endif
+	@echo "rock_dbg:top_Makefile==>vmlinux----cmd:$(cmd_link-vmlinux)...."
 	+$(call if_changed,link-vmlinux)
 
 # The actual objects are generated when descending,

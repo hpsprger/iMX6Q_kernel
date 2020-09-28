@@ -290,7 +290,8 @@ cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
 
 $(obj)/%.dtb: $(src)/%.dts FORCE
-	@echo "rock_dbg:Makefile.lib==>d$(obj)/%.dtb--$@--$^"
+	@echo "rock_dbg:Makefile.lib==>$(obj)/%.dtb--$@--$^"
+	@echo "rock_dbg:Makefile.lib==>cmd_dtc:$(cmd_dtc)"
 	$(call if_changed_dep,dtc)
 
 dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)

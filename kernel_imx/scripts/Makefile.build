@@ -259,6 +259,8 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) FORCE
 	$(call cmd,force_checksrc)
 	$(call if_changed_rule,cc_o_c)
 
+#@echo "rock_dbg:Makefile.build==>cmd_cc_o_c="$(cmd_cc_o_c)"..."
+
 # Single-part modules are special since we need to mark them in $(MODVERDIR)
 
 $(single-used-m): $(obj)/%.o: $(src)/%.c $(recordmcount_source) FORCE
@@ -288,11 +290,15 @@ cmd_as_s_S       = $(CPP) $(a_flags)   -o $@ $<
 $(obj)/%.s: $(src)/%.S FORCE
 	$(call if_changed_dep,as_s_S)
 
+#echo "rock_dbg:Makefile.build==>cmd_as_s_S="$(cmd_as_s_S)"..."
+
 quiet_cmd_as_o_S = AS $(quiet_modtag)  $@
 cmd_as_o_S       = $(CC) $(a_flags) -c -o $@ $<
 
 $(obj)/%.o: $(src)/%.S FORCE
 	$(call if_changed_dep,as_o_S)
+
+#@echo "rock_dbg:Makefile.build==>cmd_as_o_S="$(cmd_as_o_S)"..."
 
 targets += $(real-objs-y) $(real-objs-m) $(lib-y)
 targets += $(extra-y) $(MAKECMDGOALS) $(always)
@@ -335,7 +341,10 @@ cmd_link_o_target = $(if $(strip $(obj-y)),\
 		      rm -f $@; $(AR) rcs$(KBUILD_ARFLAGS) $@)
 
 $(builtin-target): $(obj-y) FORCE
+	@echo "rock_dbg:Makefile.build==>link_o_target-->$@ --$^....start"
+	@echo "rock_dbg:Makefile.build==>cmd_link_o_target=$(cmd_link_o_target)"
 	$(call if_changed,link_o_target)
+	@echo "rock_dbg:Makefile.build==>link_o_target-->$@ --$^....end"
 
 targets += $(builtin-target)
 endif # builtin-target
@@ -361,7 +370,9 @@ quiet_cmd_link_l_target = AR      $@
 cmd_link_l_target = rm -f $@; $(AR) rcs$(KBUILD_ARFLAGS) $@ $(lib-y)
 
 $(lib-target): $(lib-y) FORCE
+	@echo "rock_dbg:Makefile.build==>lib_target-->$@ --$^....start"
 	$(call if_changed,link_l_target)
+	@echo "rock_dbg:Makefile.build==>lib_target-->$@ --$^....end"
 
 targets += $(lib-target)
 endif

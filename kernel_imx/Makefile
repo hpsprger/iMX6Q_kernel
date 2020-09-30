@@ -957,7 +957,9 @@ $(sort $(vmlinux-deps)): $(vmlinux-dirs)
 
 PHONY += $(vmlinux-dirs)
 $(vmlinux-dirs): prepare scripts
+	@echo "rock_dbg:top_Makefile==>compile_sub-dir-->$@ --$^....start"
 	$(Q)$(MAKE) $(build)=$@
+	@echo "rock_dbg:top_Makefile==>compile_sub-dir-->$@ --$^....end"
 
 define filechk_kernel.release
 	echo "$(KERNELVERSION)$$($(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree))"

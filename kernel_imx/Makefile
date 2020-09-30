@@ -925,6 +925,9 @@ quiet_cmd_link-vmlinux = LINK    $@
 # execute if the rest of the kernel build went well.
 vmlinux: scripts/link-vmlinux.sh $(vmlinux-deps) FORCE
 	@echo "rock_dbg:top_Makefile==>vmlinux---->$^...."
+	@echo "rock_dbg:top_Makefile==>vmlinux---->KBUILD_LDS=$(KBUILD_LDS)...."
+	@echo "rock_dbg:top_Makefile==>vmlinux---->KBUILD_VMLINUX_INIT=$(KBUILD_VMLINUX_INIT)...."
+	@echo "rock_dbg:top_Makefile==>vmlinux---->KBUILD_VMLINUX_MAIN=$(KBUILD_VMLINUX_MAIN)...."
 ifdef CONFIG_HEADERS_CHECK
 	@echo "rock_dbg:top_Makefile==>vmlinux----111...."
 	$(Q)$(MAKE) -f $(srctree)/Makefile headers_check

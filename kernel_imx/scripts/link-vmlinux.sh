@@ -32,6 +32,7 @@ set -e
 # Will be supressed by "make -s"
 info()
 {
+    echo "===>info:param1=${1}--param2=${2}"
 	if [ "${quiet}" != "silent_" ]; then
 		printf "  %-7s %s\n" ${1} ${2}
 	fi
@@ -41,6 +42,7 @@ info()
 # ${1} output file
 modpost_link()
 {
+    echo "===>modpost_link:"${LD} ${LDFLAGS} -r -o ${1} ${KBUILD_VMLINUX_INIT} --start-group ${KBUILD_VMLINUX_MAIN} --end-group
 	${LD} ${LDFLAGS} -r -o ${1} ${KBUILD_VMLINUX_INIT}                   \
 		--start-group ${KBUILD_VMLINUX_MAIN} --end-group
 }
@@ -53,10 +55,19 @@ vmlinux_link()
 	local lds="${objtree}/${KBUILD_LDS}"
 
 	if [ "${SRCARCH}" != "um" ]; then
+            echo "===>vmlinux_link(not um):"${LD} ${LDFLAGS} ${LDFLAGS_vmlinux} -o ${2}                  \
+			-T ${lds} ${KBUILD_VMLINUX_INIT}                     \
+			--start-group ${KBUILD_VMLINUX_MAIN} --end-group ${1}
 		${LD} ${LDFLAGS} ${LDFLAGS_vmlinux} -o ${2}                  \
 			-T ${lds} ${KBUILD_VMLINUX_INIT}                     \
 			--start-group ${KBUILD_VMLINUX_MAIN} --end-group ${1}
 	else
+            echo "===>vmlinux_link(um):"${CC} ${CFLAGS_vmlinux} -o ${2}                              \
+			-Wl,-T,${lds} ${KBUILD_VMLINUX_INIT}                 \
+			-Wl,--start-group                                    \
+				 ${KBUILD_VMLINUX_MAIN}                      \
+			-Wl,--end-group                                      \
+			-lutil ${1}
 		${CC} ${CFLAGS_vmlinux} -o ${2}                              \
 			-Wl,-T,${lds} ${KBUILD_VMLINUX_INIT}                 \
 			-Wl,--start-group                                    \
@@ -93,6 +104,9 @@ kallsyms()
 	local aflags="${KBUILD_AFLAGS} ${KBUILD_AFLAGS_KERNEL}               \
 		      ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS}"
 
+	echo "===>kallsyms:"${NM} -n ${1} | \
+		scripts/kallsyms ${kallsymopt} | \
+		${CC} ${aflags} -c -o ${2} -x assembler-with-cpp -
 	${NM} -n ${1} | \
 		scripts/kallsyms ${kallsymopt} | \
 		${CC} ${aflags} -c -o ${2} -x assembler-with-cpp -
@@ -102,6 +116,7 @@ kallsyms()
 # See mksymap for additional details
 mksysmap()
 {
+	echo  "===>mksysmap:"${CONFIG_SHELL} "${srctree}/scripts/mksysmap" ${1} ${2}
 	${CONFIG_SHELL} "${srctree}/scripts/mksysmap" ${1} ${2}
 }
 
@@ -147,6 +162,17 @@ case "${KCONFIG_CONFIG}" in
 	# Force using a file from the current directory
 	. "./${KCONFIG_CONFIG}"
 esac
+
+echo "================link-vmlinux.sh==============================="
+echo "================param0:${0}==============================="
+echo "================param1:${1}==============================="
+echo "================param2:${2}==============================="
+echo "================param3:${3}==============================="
+echo "================param4:${4}==============================="
+echo "================param5:${5}==============================="
+echo "================param6:${6}==============================="
+echo "================param7:${7}==============================="
+echo "================param8:${8}==============================="
 
 #link vmlinux.o
 info LD vmlinux.o

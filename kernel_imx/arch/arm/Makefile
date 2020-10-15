@@ -315,8 +315,9 @@ INSTALL_TARGETS	= zinstall uinstall install
 PHONY += bzImage $(BOOT_TARGETS) $(INSTALL_TARGETS)
 
 $(BOOT_TARGETS): vmlinux
-	@echo "rock_dbg:arch_arm_Makefile==> $@--$^...."
+	@echo "rock_dbg:arch_arm_Makefile:BOOT_TARGETS==>$(Q)$(MAKE) $(build)=$(boot) MACHINE=$(MACHINE) $(boot)/$@...start"
 	$(Q)$(MAKE) $(build)=$(boot) MACHINE=$(MACHINE) $(boot)/$@
+	@echo "rock_dbg:arch_arm_Makefile:BOOT_TARGETS==>$(Q)$(MAKE) $(build)=$(boot) MACHINE=$(MACHINE) $(boot)/$@...end"
 
 $(INSTALL_TARGETS):
 	$(Q)$(MAKE) $(build)=$(boot) MACHINE=$(MACHINE) $@

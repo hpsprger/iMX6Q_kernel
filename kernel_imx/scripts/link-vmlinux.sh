@@ -122,6 +122,7 @@ mksysmap()
 
 sortextable()
 {
+        echo "===>sortextable:"${objtree}/scripts/sortextable ${1}
 	${objtree}/scripts/sortextable ${1}
 }
 

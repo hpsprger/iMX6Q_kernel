@@ -54,15 +54,21 @@ $(obj)/xipImage: FORCE
 	@false
 
 $(obj)/Image: vmlinux FORCE
+	@echo "rock_dbg:arch_arm_boot_Makefile:Image==>$(cmd_objcopy)----start"
 	$(call if_changed,objcopy)
 	@$(kecho) '  Kernel: $@ is ready'
+	@echo "rock_dbg:arch_arm_boot_Makefile:Image==>$(cmd_objcopy)----end"
 
 $(obj)/compressed/vmlinux: $(obj)/Image FORCE
+	@echo "rock_dbg:arch_arm_boot_Makefile:compressed/vmlinux==>$(Q)$(MAKE) $(build)=$(obj)/compressed $@----start"
 	$(Q)$(MAKE) $(build)=$(obj)/compressed $@
+	@echo "rock_dbg:arch_arm_boot_Makefile:compressed/vmlinux==>$(Q)$(MAKE) $(build)=$(obj)/compressed $@----end"
 
 $(obj)/zImage:	$(obj)/compressed/vmlinux FORCE
+	@echo "rock_dbg:arch_arm_boot_Makefile:zImage==>$(cmd_objcopy)----start"
 	$(call if_changed,objcopy)
 	@$(kecho) '  Kernel: $@ is ready'
+	@echo "rock_dbg:arch_arm_boot_Makefile:zImage==>$(cmd_objcopy)----end"
 
 $(obj)/zImage-dtb:	$(obj)/zImage $(DTB_OBJS) FORCE
 	$(call if_changed,cat)

@@ -330,9 +330,10 @@ main(int argc, char *argv[])
 		fprintf(stderr, "usage: sortextable vmlinux...\n");
 		return 0;
 	}
-
+        printf("sortextable: param0=%s \n", argv[0]);
 	/* Process each file in turn, allowing deep failure. */
 	for (i = 1; i < argc; i++) {
+                printf("sortextable: param%d=%s \n", i, argv[i]);
 		char *file = argv[i];
 		int const sjval = setjmp(jmpenv);
 

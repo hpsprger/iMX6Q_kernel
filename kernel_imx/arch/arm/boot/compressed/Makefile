@@ -172,9 +172,11 @@ fi
 $(obj)/vmlinux: $(obj)/vmlinux.lds $(obj)/$(HEAD) $(obj)/piggy.$(suffix_y).o \
 		$(addprefix $(obj)/, $(OBJS)) $(lib1funcs) $(ashldi3) \
 		$(bswapsdi2) FORCE
+	@echo "rock_dbg:arch_arm_boot_compressed_Makefile:vmlinux==>$(cmd_ld)----start"
 	@$(check_for_multiple_zreladdr)
 	$(call if_changed,ld)
 	@$(check_for_bad_syms)
+	@echo "rock_dbg:arch_arm_boot_compressed_Makefile:vmlinux==>$(cmd_ld)----end"
 
 $(obj)/piggy.$(suffix_y): $(obj)/../Image FORCE
 	$(call if_changed,$(suffix_y))

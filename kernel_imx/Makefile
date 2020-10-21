@@ -318,7 +318,9 @@ KBUILD_BUILTIN := 1
 # make sure the checksums are up to date before we record them.
 
 ifeq ($(MAKECMDGOALS),modules)
+  $(warning "top makefile ..............................MAKECMDGOALS="$(MAKECMDGOALS))
   KBUILD_BUILTIN := $(if $(CONFIG_MODVERSIONS),1)
+  $(warning "top makefile ..............................KBUILD_BUILTIN="$(KBUILD_BUILTIN) "CONFIG_MODVERSIONS="$(CONFIG_MODVERSIONS))
 endif
 
 # If we have "make <whatever> modules", compile modules
@@ -1119,16 +1121,25 @@ all: modules
 
 PHONY += modules
 modules: $(vmlinux-dirs) $(if $(KBUILD_BUILTIN),vmlinux) modules.builtin
+	@echo "rock_dbg:Top_Makefile:modules==>vmlinux-dirs=$(vmlinux-dirs)-----KBUILD_BUILTIN=$(KBUILD_BUILTIN)---modules.builtin---MAKECMDGOALS=$(MAKECMDGOALS)---CONFIG_MODVERSIONS=$(CONFIG_MODVERSIONS)-----all_deps:$^----start"
+	@echo "rock_dbg:Top_Makefile:modules==>cmd1--->output_cmd_to_$(objtree)/modules.order"$(Q)$(AWK) '!x[$$0]++' $(vmlinux-dirs:%=$(objtree)/%/modules.order)
 	$(Q)$(AWK) '!x[$$0]++' $(vmlinux-dirs:%=$(objtree)/%/modules.order) > $(objtree)/modules.order
 	@$(kecho) '  Building modules, stage 2.';
+	@echo "rock_dbg:Top_Makefile:modules==>cmd2:"$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
+	@echo "rock_dbg:Top_Makefile:modules==>cmd3:"$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.fwinst obj=firmware __fw_modbuild
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.fwinst obj=firmware __fw_modbuild
+	@echo "rock_dbg:Top_Makefile:modules==>----end"
 
 modules.builtin: $(vmlinux-dirs:%=%/modules.builtin)
+	@echo "rock_dbg:Top_Makefile:modules.builtin======******===>$^----cmd_output_to_$(objtree)/modules.builtin:"$(Q)$(AWK) '!x[$$0]++' $^ "--start"
 	$(Q)$(AWK) '!x[$$0]++' $^ > $(objtree)/modules.builtin
+	@echo "rock_dbg:Top_Makefile:modules.builtin======******===>-----end"
 
 %/modules.builtin: include/config/auto.conf
+	@echo "rock_dbg:Top_Makefile:%modules.builtin===>$^----cmd:"$(Q)$(MAKE) $(modbuiltin)=$*"---start"
 	$(Q)$(MAKE) $(modbuiltin)=$*
+	@echo "rock_dbg:Top_Makefile:%modules.builtin===>----end"
 
 
 # Target to prepare building external modules

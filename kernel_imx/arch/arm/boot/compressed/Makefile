@@ -179,7 +179,9 @@ $(obj)/vmlinux: $(obj)/vmlinux.lds $(obj)/$(HEAD) $(obj)/piggy.$(suffix_y).o \
 	@echo "rock_dbg:arch_arm_boot_compressed_Makefile:vmlinux==>$(cmd_ld)----end"
 
 $(obj)/piggy.$(suffix_y): $(obj)/../Image FORCE
+	@echo "rock_dbg:arch_arm_boot_compressed_Makefile:$@--suffix_y=$(suffix_y)---cmd=$(cmd_lzo)---start"
 	$(call if_changed,$(suffix_y))
+	@echo "rock_dbg:arch_arm_boot_compressed_Makefile:$@--suffix_y=$(suffix_y)---cmd=$(cmd_lzo)---end"
 
 $(obj)/piggy.$(suffix_y).o:  $(obj)/piggy.$(suffix_y) FORCE
 

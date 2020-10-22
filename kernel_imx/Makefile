@@ -329,6 +329,7 @@ endif
 
 ifneq ($(filter all _all modules,$(MAKECMDGOALS)),)
   KBUILD_MODULES := 1
+  $(warning "top makefile ..............................KBUILD_MODULES="$(KBUILD_MODULES))
 endif
 
 ifeq ($(MAKECMDGOALS),)

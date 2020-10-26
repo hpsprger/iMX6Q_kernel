@@ -66,6 +66,12 @@ modules   := $(patsubst %.o,%.ko, $(wildcard $(__modules:.ko=.o)))
 
 # Stop after building .o files if NOFINAL is set. Makes compile tests quicker
 _modpost: $(if $(KBUILD_MODPOST_NOFINAL), $(modules:.ko:.o),$(modules))
+	@echo "Makefile.modpost:_modpost1=======================>start......$^........KBUILD_MODPOST_NOFINAL:"$(KBUILD_MODPOST_NOFINAL)
+	@echo "Makefile.modpost:_modpost1======================111=>MODVERDIR:"$(MODVERDIR)
+	@echo "Makefile.modpost:_modpost1======================222=>MODLISTCMD:$(MODLISTCMD)"
+	@echo "Makefile.modpost:_modpost1======================333=>__modules:"$(__modules)
+	@echo "Makefile.modpost:_modpost1======================444=>modules:"$(modules)
+	@echo "Makefile.modpost:_modpost1=======================>end......."
 
 # Step 2), invoke modpost
 #  Includes step 3,4
@@ -87,13 +93,17 @@ quiet_cmd_modpost = MODPOST $(words $(filter-out vmlinux FORCE, $^)) modules
 
 PHONY += __modpost
 __modpost: $(modules:.ko=.o) FORCE
+	@echo "Makefile.modpost:__modpost_sxhx=======================>start......."
 	$(call cmd,modpost) $(wildcard vmlinux)
+	@echo "Makefile.modpost:__modpost_sxhx=======================>end......."
 
 quiet_cmd_kernel-mod = MODPOST $@
       cmd_kernel-mod = $(modpost) $@
 
 vmlinux.o: FORCE
+	@echo "Makefile.modpost:vmlinux.o=======================>start......."
 	$(call cmd,kernel-mod)
+	@echo "Makefile.modpost:vmlinux.o=======================>end......."
 
 # Declare generated files as targets for modpost
 $(symverfile):         __modpost ;
@@ -110,7 +120,9 @@ quiet_cmd_cc_o_c = CC      $@
 		   -c -o $@ $<
 
 $(modules:.ko=.mod.o): %.mod.o: %.mod.c FORCE
+	@echo "rock_dbg:Makefile.modpost==>cc_o_c:target:$@----all_deps:$^====================================>cmd_cc_o_c="$(cmd_cc_o_c)"-->....start"
 	$(call if_changed_dep,cc_o_c)
+	@echo "rock_dbg:Makefile.modpost==>cc_o_c....end"
 
 targets += $(modules:.ko=.mod.o)
 
@@ -121,7 +133,9 @@ quiet_cmd_ld_ko_o = LD [M]  $@
                              -o $@ $(filter-out FORCE,$^)
 
 $(modules): %.ko :%.o %.mod.o FORCE
+	@echo "rock_dbg:Makefile.modpost==>ld_ko_o:target:$@----all_deps:$^==================================>cmd_ld_ko_o="$(cmd_ld_ko_o)"-->....start"
 	$(call if_changed,ld_ko_o)
+	@echo "rock_dbg:Makefile.modpost==>ld_ko_o....end"
 
 targets += $(modules)
 

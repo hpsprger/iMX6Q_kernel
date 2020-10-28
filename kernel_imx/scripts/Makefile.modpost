@@ -101,7 +101,7 @@ quiet_cmd_kernel-mod = MODPOST $@
       cmd_kernel-mod = $(modpost) $@
 
 vmlinux.o: FORCE
-	@echo "Makefile.modpost:vmlinux.o=======================>start......."
+	@echo "Makefile.modpost:vmlinux.o===========cmd_kernel-mod:$(cmd_kernel-mod)============>start......."
 	$(call cmd,kernel-mod)
 	@echo "Makefile.modpost:vmlinux.o=======================>end......."
 

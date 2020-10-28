@@ -2370,9 +2370,13 @@ int main(int argc, char **argv)
 	char *dump_write = NULL, *files_source = NULL;
 	int opt;
 	int err;
+        int i;
 	struct ext_sym_list *extsym_iter;
 	struct ext_sym_list *extsym_start = NULL;
-
+        printf("rock_dbg:=====>scripts/mod/modpost.....argc:%d \n", argc);
+        for (i = 0; i < argc; i++) {
+            printf("rock_dbg:=====>scripts/mod/modpost...argv[%d]=%s\n", i, argv[i]);
+        }
 	while ((opt = getopt(argc, argv, "i:I:e:mnsST:o:awM:K:")) != -1) {
 		switch (opt) {
 		case 'i':
@@ -2461,6 +2465,7 @@ int main(int argc, char **argv)
 		add_srcversion(&buf, mod);
 
 		sprintf(fname, "%s.mod.c", mod->name);
+                printf("rock_dbg:=====>scripts/mod/modpost...fname=%s\n", fname);
 		write_if_changed(&buf, fname);
 	}
 

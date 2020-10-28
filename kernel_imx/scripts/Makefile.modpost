@@ -93,7 +93,7 @@ quiet_cmd_modpost = MODPOST $(words $(filter-out vmlinux FORCE, $^)) modules
 
 PHONY += __modpost
 __modpost: $(modules:.ko=.o) FORCE
-	@echo "Makefile.modpost:__modpost_sxhx=======================>start......."
+	@echo "Makefile.modpost:__modpost_sxhx==========mid_cmd:$(cmd_modpost) $(wildcard vmlinux)=============>start......."
 	$(call cmd,modpost) $(wildcard vmlinux)
 	@echo "Makefile.modpost:__modpost_sxhx=======================>end......."
 

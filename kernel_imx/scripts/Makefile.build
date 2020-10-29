@@ -256,17 +256,22 @@ endef
 
 # Built-in and composite module parts
 $(obj)/%.o: $(src)/%.c $(recordmcount_source) FORCE
+	@echo "rock_dbg:Makefile.build==>obj/%.o-->$@--$<....cmd_cc_o_c:"$(cmd_cc_o_c)"...start00"
 	$(call cmd,force_checksrc)
 	$(call if_changed_rule,cc_o_c)
+	@echo "rock_dbg:Makefile.build==>obj/%.o--.......end"
 
 #@echo "rock_dbg:Makefile.build==>cmd_cc_o_c="$(cmd_cc_o_c)"..."
 
 # Single-part modules are special since we need to mark them in $(MODVERDIR)
 
 $(single-used-m): $(obj)/%.o: $(src)/%.c $(recordmcount_source) FORCE
+	@echo "rock_dbg:Makefile.build==>single-used-m-->$@--$<....cmd_cc_o_c:"$(cmd_cc_o_c)"...start00"
 	$(call cmd,force_checksrc)
 	$(call if_changed_rule,cc_o_c)
+	@echo "rock_dbg:Makefile.build==>single-used-m---mid_cmd:{ echo $(@:.o=.ko); echo $@; } > "$(MODVERDIR)"/"$(@F:.o=.mod)
 	@{ echo $(@:.o=.ko); echo $@; } > $(MODVERDIR)/$(@F:.o=.mod)
+	@echo "rock_dbg:Makefile.build==>single-used-m-->...end"
 
 quiet_cmd_cc_lst_c = MKLST   $@
       cmd_cc_lst_c = $(CC) $(c_flags) -g -c -o $*.o $< && \
@@ -360,7 +365,11 @@ modorder-cmds =						\
 			cat $m;, echo kernel/$m;))
 
 $(modorder-target): $(subdir-ym) FORCE
+	@echo "rock_dbg:Makefile.build==>modorder-target-->target:$@----all_deps:$^....start00"
+	@echo "rock_dbg:Makefile.build==>modorder-target-->modorder:$(modorder)....start11"
+	@echo "rock_dbg:Makefile.build==>modorder-target------>cmd:(cat /dev/null;$(modorder-cmds)) >""$@"
 	$(Q)(cat /dev/null; $(modorder-cmds)) > $@
+	@echo "rock_dbg:Makefile.build==>modorder-target--....end"
 
 #
 # Rule to compile a set of .o files into one .a file

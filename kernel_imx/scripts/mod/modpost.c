@@ -1987,14 +1987,16 @@ static void read_symbols_from_files(const char *filename)
 {
 	FILE *in = stdin;
 	char fname[PATH_MAX];
-
+        printf("read_symbols_from_files:modpost======>1111_filename:%s\n",filename);
 	if (strcmp(filename, "-") != 0) {
+                printf("read_symbols_from_files:modpost======>2222_filename:%s\n",filename);
 		in = fopen(filename, "r");
 		if (!in)
 			fatal("Can't open filenames file %s: %m", filename);
 	}
-
+        printf("read_symbols_from_files:modpost======>in:%s\n",in);
 	while (fgets(fname, PATH_MAX, in) != NULL) {
+                printf("read_symbols_from_files:modpost======>fname:%s\n",fname);
 		if (strends(fname, "\n"))
 			fname[strlen(fname)-1] = '\0';
 		read_symbols(fname);
@@ -2437,6 +2439,7 @@ int main(int argc, char **argv)
 	while (optind < argc)
 		read_symbols(argv[optind++]);
 
+        printf("rock_dbg:=====>scripts/mod/modpost.....files_source:%s\n", files_source);
 	if (files_source)
 		read_symbols_from_files(files_source);
 

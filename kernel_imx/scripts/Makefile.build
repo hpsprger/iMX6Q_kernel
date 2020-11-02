@@ -256,22 +256,22 @@ endef
 
 # Built-in and composite module parts
 $(obj)/%.o: $(src)/%.c $(recordmcount_source) FORCE
-	@echo "rock_dbg:Makefile.build=====KBUILD_MODULES:"$(KBUILD_MODULES)"=====KBUILD_BUILTIN:"$(KBUILD_BUILTIN)"===>obj/%.o-->$@--$<....cmd_cc_o_c:"$(cmd_cc_o_c)"...start00"
+	@echo "rock_dbg:Makefile.build======>obj/xxx.o--------KBUILD_MODULES:"$(KBUILD_MODULES)"=====KBUILD_BUILTIN:"$(KBUILD_BUILTIN)"===>obj/%.o-->$@--$<....cmd_cc_o_c:"$(cmd_cc_o_c)"...start00"
 	$(call cmd,force_checksrc)
 	$(call if_changed_rule,cc_o_c)
-	@echo "rock_dbg:Makefile.build==>obj/%.o--.......end"
+	@echo "rock_dbg:Makefile.build======>obj/xxx.o.........end"
 
 #@echo "rock_dbg:Makefile.build==>cmd_cc_o_c="$(cmd_cc_o_c)"..."
 
 # Single-part modules are special since we need to mark them in $(MODVERDIR)
 
 $(single-used-m): $(obj)/%.o: $(src)/%.c $(recordmcount_source) FORCE
-	@echo "rock_dbg:Makefile.build====KBUILD_MODULES:"$(KBUILD_MODULES)"=====KBUILD_BUILTIN:"$(KBUILD_BUILTIN)"====>single-used-m:"$(single-used-m)"---------->$@--$<....cmd_cc_o_c:"$(cmd_cc_o_c)"...start00"
+	@echo "rock_dbg:Makefile.build========>single-used-m:obj_/xxx.o:src/xxxx.c------KBUILD_MODULES:"$(KBUILD_MODULES)"------KBUILD_BUILTIN:"$(KBUILD_BUILTIN)"------single-used-m:"$(single-used-m)"---------->$@------$<....cmd_cc_o_c:"$(cmd_cc_o_c)"...start"
 	$(call cmd,force_checksrc)
 	$(call if_changed_rule,cc_o_c)
-	@echo "rock_dbg:Makefile.build==>single-used-m---mid_cmd:{ echo $(@:.o=.ko); echo $@; } > "$(MODVERDIR)"/"$(@F:.o=.mod)
+	@echo "rock_dbg:Makefile.build=========>single-used-m:obj_/xxx.o:src/xxxx.c-------mid_cmd:{ echo $(@:.o=.ko); echo $@; } > "$(MODVERDIR)"/"$(@F:.o=.mod)
 	@{ echo $(@:.o=.ko); echo $@; } > $(MODVERDIR)/$(@F:.o=.mod)
-	@echo "rock_dbg:Makefile.build==>single-used-m-->...end"
+	@echo "rock_dbg:Makefile.build=========>single-used-m:obj_/xxx.o:src/xxxx.c........end"
 
 quiet_cmd_cc_lst_c = MKLST   $@
       cmd_cc_lst_c = $(CC) $(c_flags) -g -c -o $*.o $< && \
@@ -346,10 +346,9 @@ cmd_link_o_target = $(if $(strip $(obj-y)),\
 		      rm -f $@; $(AR) rcs$(KBUILD_ARFLAGS) $@)
 
 $(builtin-target): $(obj-y) FORCE
-	@echo "rock_dbg:Makefile.build==>link_o_target-->$@ --$^....start"
-	@echo "rock_dbg:Makefile.build==>cmd_link_o_target=$(cmd_link_o_target)"
+	@echo "rock_dbg:Makefile.build======>builtin-target----->builtin-target:$@-------all_deps(obj-y):$^--------cmd_link_o_target=$(cmd_link_o_target)........start"
 	$(call if_changed,link_o_target)
-	@echo "rock_dbg:Makefile.build==>link_o_target-->$@ --$^....end"
+	@echo "rock_dbg:Makefile.build======>builtin-target......end"
 
 targets += $(builtin-target)
 endif # builtin-target
@@ -365,11 +364,10 @@ modorder-cmds =						\
 			cat $m;, echo kernel/$m;))
 
 $(modorder-target): $(subdir-ym) FORCE
-	@echo "rock_dbg:Makefile.build==>modorder-target-->modorder-target:$@--------all_deps:$^....start00"
-	@echo "rock_dbg:Makefile.build==>modorder-target-->modorder:$(modorder)....start11"
-	@echo "rock_dbg:Makefile.build==>modorder-target------>cmd:(cat /dev/null;$(modorder-cmds)) >""$@"
+	@echo "rock_dbg:Makefile.build=========>modorder-target------>modorder-target:$@--------all_deps(subdir-ym):$^-------modorder:$(modorder)....start"
+	@echo "rock_dbg:Makefile.build=========>modorder-target------>mid_cmd:(cat /dev/null;$(modorder-cmds)) >""$@"
 	$(Q)(cat /dev/null; $(modorder-cmds)) > $@
-	@echo "rock_dbg:Makefile.build==>modorder-target--....end"
+	@echo "rock_dbg:Makefile.build=========>modorder-target......end"
 
 #
 # Rule to compile a set of .o files into one .a file
@@ -379,9 +377,9 @@ quiet_cmd_link_l_target = AR      $@
 cmd_link_l_target = rm -f $@; $(AR) rcs$(KBUILD_ARFLAGS) $@ $(lib-y)
 
 $(lib-target): $(lib-y) FORCE
-	@echo "rock_dbg:Makefile.build==>lib_target-->$@ --$^....start"
+	@echo "rock_dbg:Makefile.build======>lib_target--------lib-target:$@-----all_deps(lib-y):$^-----cmd_link_l_target:$(cmd_link_l_target).....start"
 	$(call if_changed,link_l_target)
-	@echo "rock_dbg:Makefile.build==>lib_target-->$@ --$^....end"
+	@echo "rock_dbg:Makefile.build=======>lib_target........end"
 
 targets += $(lib-target)
 endif
@@ -405,17 +403,17 @@ quiet_cmd_link_multi-m = LD [M]  $@
 cmd_link_multi-m = $(cmd_link_multi-y)
 
 $(multi-used-y): FORCE
-	@echo "rock_dbg:Makefile.build====KBUILD_MODULES:"$(KBUILD_MODULES)"=====KBUILD_BUILTIN:"$(KBUILD_BUILTIN)"======>multi-used-y:"$(multi-used-y)"--------$@-----$^......cmd_link_multi-y="$(cmd_link_multi-y)"............start"
+	@echo "rock_dbg:Makefile.build======>multi-used-y--------KBUILD_MODULES:"$(KBUILD_MODULES)"-----KBUILD_BUILTIN:"$(KBUILD_BUILTIN)"-------multi-used-y:"$(multi-used-y)"--------$@-----$^......cmd_link_multi-y="$(cmd_link_multi-y)"............start"
 	$(call if_changed,link_multi-y)
-	@echo "rock_dbg:Makefile.build==>multi-used-y....end"
+	@echo "rock_dbg:Makefile.build======>multi-used-y.........end"
 $(call multi_depend, $(multi-used-y), .o, -objs -y)
 
 $(multi-used-m): FORCE
-	@echo "rock_dbg:Makefile.build====KBUILD_MODULES:"$(KBUILD_MODULES)"=====KBUILD_BUILTIN:"$(KBUILD_BUILTIN)"=======>multi-used-m:"$(multi-used-m)"------$@------$^......cmd_link_multi-m="$(cmd_link_multi-m)"............start"
+	@echo "rock_dbg:Makefile.build======>multi-used-m--------KBUILD_MODULES:"$(KBUILD_MODULES)"-------KBUILD_BUILTIN:"$(KBUILD_BUILTIN)"-------multi-used-m:"$(multi-used-m)"------$@------$^......cmd_link_multi-m="$(cmd_link_multi-m)"............start"
 	$(call if_changed,link_multi-m)
-	@echo "rock_dbg:Makefile.build==>multi-used-m----->important_cmd: echo "$(@:.o=.ko)"; echo "$(link_multi_deps)"; } > "$(MODVERDIR)"/"$(@F:.o=.mod)
+	@echo "rock_dbg:Makefile.build==>multi-used-m----->mid_cmd: echo "$(@:.o=.ko)"; echo "$(link_multi_deps)"; } > "$(MODVERDIR)"/"$(@F:.o=.mod)
 	@{ echo $(@:.o=.ko); echo $(link_multi_deps); } > $(MODVERDIR)/$(@F:.o=.mod)
-	@echo "rock_dbg:Makefile.build==>multi-used-m....end"
+	@echo "rock_dbg:Makefile.build======>multi-used-m.........end"
 $(call multi_depend, $(multi-used-m), .o, -objs -y)
 
 targets += $(multi-used-y) $(multi-used-m)
@@ -426,7 +424,9 @@ targets += $(multi-used-y) $(multi-used-m)
 
 PHONY += $(subdir-ym)
 $(subdir-ym):
+	@echo "rock_dbg:Makefile.build====>subdir-ym:$@............start"
 	$(Q)$(MAKE) $(build)=$@
+	@echo "rock_dbg:Makefile.build====>subdir-ym:$@............end"
 
 # Add FORCE to the prequisites of a target to force it to be always rebuilt.
 # ---------------------------------------------------------------------------

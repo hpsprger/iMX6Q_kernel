@@ -15,6 +15,9 @@ clean :
 
 else
 
-obj-m := module1.o
+kernel_module_name := rock_module
+
+obj-m := $(kernel_module_name).o
+$(kernel_module_name)-objs := module1.o module2.o
 
 endif

@@ -759,6 +759,11 @@ int main(int argc, char **argv)
 {
 	FILE *dumpfile = NULL, *ref_file = NULL;
 	int o;
+        int i;
+
+        for (i=0; i<argc; i++) {
+            printf("rock_debug_genksyms_main:%d -- %s \n", i, argv[i]);
+        }
 
 #ifdef __GNU_LIBRARY__
 	struct option long_opts[] = {

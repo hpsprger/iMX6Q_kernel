@@ -548,7 +548,8 @@ static int parse_elf(struct elf_info *info, const char *filename)
 		sym->st_shndx = TO_NATIVE(sym->st_shndx);
 		sym->st_name  = TO_NATIVE(sym->st_name);
 		sym->st_value = TO_NATIVE(sym->st_value);
-		sym->st_size  = TO_NATIVE(sym->st_size);
+		sym->st_size  = TO_NATIVE(sym->st_size);   
+                printf("rock_dbg:=====>scripts/mod/modpost...parse_elf:%s==>sym_name_idx=0x%x sym_crc=0x%x\n", filename, sym->st_name, sym->st_value);
 	}
 
 	if (symtab_shndx_idx != ~0U) {
@@ -1927,6 +1928,8 @@ static void read_symbols(char *modname)
 	struct elf_info info = { };
 	Elf_Sym *sym;
 
+        printf("rock_dbg:=====>scripts/mod/modpost...read_symbols==>modname=%s \n", modname);
+
 	if (!parse_elf(&info, modname))
 		return;
 
@@ -1957,7 +1960,7 @@ static void read_symbols(char *modname)
 
 	for (sym = info.symtab_start; sym < info.symtab_stop; sym++) {
 		symname = remove_dot(info.strtab + sym->st_name);
-
+                printf("rock_dbg:=====>scripts/mod/modpost....read_symbols==>modname:%s===>sym_name_idx:0x%x symname=%s \n", modname, sym->st_name, symname);
 		handle_modversions(mod, &info, sym, symname);
 		handle_moddevtable(mod, &info, sym, symname);
 	}

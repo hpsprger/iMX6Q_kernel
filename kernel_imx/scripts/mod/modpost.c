@@ -1994,9 +1994,9 @@ static void read_symbols_from_files(const char *filename)
 		if (!in)
 			fatal("Can't open filenames file %s: %m", filename);
 	}
-        printf("read_symbols_from_files:modpost======>in:%s\n",in);
+        printf("read_symbols_from_files:modpost======>in(stdin or file,here is stdin):%s\n",in);
 	while (fgets(fname, PATH_MAX, in) != NULL) {
-                printf("read_symbols_from_files:modpost======>fname:%s\n",fname);
+                printf("read_symbols_from_files:modpost======>read_symbol_from_files:file_name:%s\n",fname);
 		if (strends(fname, "\n"))
 			fname[strlen(fname)-1] = '\0';
 		read_symbols(fname);
@@ -2425,11 +2425,16 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (kernel_read)
+	if (kernel_read) {
+                printf("rock_dbg:=====>scripts/mod/modpost...kernel_read:%s\n", kernel_read);
 		read_dump(kernel_read, 1);
-	if (module_read)
+        }
+	if (module_read) {
+                printf("rock_dbg:=====>scripts/mod/modpost...module_read:%s\n", module_read);
 		read_dump(module_read, 0);
+        }
 	while (extsym_start) {
+                printf("rock_dbg:=====>scripts/mod/modpost...extsym_file:%s\n", extsym_start->file);
 		read_dump(extsym_start->file, 0);
 		extsym_iter = extsym_start->next;
 		free(extsym_start);
@@ -2468,7 +2473,7 @@ int main(int argc, char **argv)
 		add_srcversion(&buf, mod);
 
 		sprintf(fname, "%s.mod.c", mod->name);
-                printf("rock_dbg:=====>scripts/mod/modpost...fname=%s\n", fname);
+                printf("rock_dbg:=====>scripts/mod/modpost...create_xxx.mod.c_filename=%s\n", fname);
 		write_if_changed(&buf, fname);
 	}
 

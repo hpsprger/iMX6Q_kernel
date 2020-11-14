@@ -759,11 +759,14 @@ int main(int argc, char **argv)
 {
 	FILE *dumpfile = NULL, *ref_file = NULL;
 	int o;
-        //int i;
+        int i;
+        FILE *fd;
 
-        //for (i=0; i<argc; i++) {
-        //    printf("rock_debug_genksyms_main:%d -- %s \n", i, argv[i]);
-        //}
+        fd = fopen("./1111.txt","w+");
+        for (i=0; i<argc; i++) {
+            fprintf(fd,"rock_debug_genksyms_main:%d -- %s \n", i, argv[i]);
+        }
+        fclose(fd);
 
 #ifdef __GNU_LIBRARY__
 	struct option long_opts[] = {

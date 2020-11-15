@@ -16,8 +16,8 @@ static void rock_net_card_exit(void)
 }
 
 
-module_init(rock_module_init);
-module_exit(rock_module_exit);
+module_init(rock_net_card_init);
+module_exit(rock_net_card_exit);
 
 MODULE_LICENSE("Dual BSD/GPL");
 MODULE_AUTHOR("ROCKLEE");

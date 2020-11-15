@@ -3,7 +3,7 @@
  
 extern void hello_fun(void);
 
-static int rocke_net_card_init(void)
+static int rock_net_card_init(void)
 {
     hello_fun();
     printk(KERN_EMERG "rock net card init....\n");

@@ -15,9 +15,11 @@ clean :
 
 else
 
-kernel_module_name := rock_module
-
+kernel_module_name := rock_gpio_led
 obj-m := $(kernel_module_name).o
-$(kernel_module_name)-objs := module1.o module2.o
+$(kernel_module_name)-objs := rock_gpio_led.o  rock_gpio_led_sub.o
+
+kernel_module_name := rock_net_card
+obj-m := $(kernel_module_name).o
 
 endif

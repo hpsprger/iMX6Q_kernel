@@ -1327,12 +1327,15 @@ struct platform_device g_rock_module_device = {
     .dev.release = rock_module_device_release,
 };
 
+
 static int __init rock_module_init(void)
 {
     int driver_state;
     int device_state; 
     
     printk(KERN_EMERG "rock_module_init~~~~\n");
+     
+    hello_fun();
 
     driver_state = platform_driver_register(&g_rock_module_driver);
     printk(KERN_EMERG "\tdriver_state is %d\n",driver_state);
